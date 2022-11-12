@@ -24,6 +24,8 @@ to match your db config
 
 when it's all done, run the command : `php bin/console doctrine:database:create`
 
+sometimes after pulling new changes, the db schema can change. dont forget to update your db using `php bin/console d:s:u` (doctrine:schema:update) 
+
 # 4 | Launch the server
 
 run the command  `symfony serve`
