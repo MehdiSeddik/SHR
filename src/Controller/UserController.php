@@ -20,20 +20,36 @@ class UserController extends AbstractController
     }
 
     #[Route('/users', name: 'user_index', methods: ['GET'])]
+    /**
+     * Undocumented function
+     *
+     * @param UserRepository $userRepository
+     * @return Response
+     */
     public function index(UserRepository $userRepository): Response
     {
         return $this->json($userRepository->findAll(), 200, [], ['groups' => 'user:read']);
     }
 
-    //json get user by id
     #[Route('/users/{id}', name: 'user_show', methods: ['GET'])]
+    /**
+     * json get user by id
+     *
+     * @param User $user
+     * @return Response
+     */
     public function show(User $user): Response
     {
         return $this->json($user, 200, [], ['groups' => 'user:read']);
     }
 
-    // json register new user
     #[Route('/register', name: 'user_register', methods: ['POST'])]
+    /**
+     * json register new user
+     *
+     * @param Request $request
+     * @return Response
+     */
     public function register(Request $request): Response
     {
         $requestContent = json_decode($request->getContent(), true);
@@ -62,7 +78,13 @@ class UserController extends AbstractController
         // return successfull message
         return $this->json(['message' => 'User created'], 201);
     }
-    // json get all users
+
+    /**
+     * json get all users
+     *
+     * @param UserRepository $userRepository
+     * @return Response
+     */
     #[Route('/all', name: 'user_all', methods: ['GET'])]
     public function all(UserRepository $userRepository): Response
     {
