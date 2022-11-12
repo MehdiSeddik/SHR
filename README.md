@@ -4,7 +4,7 @@ Symfony 6.1 api powered by api-platform, using php 8.1
 
 ## How to contribute
 
-# 1 | Install package manager ans symfony cli
+# 1 | Install package manager and symfony cli
 
 To run the dev environment, you'll need [composer](https://getcomposer.org/) and [Symfony CLI](https://symfony.com/download)
 
