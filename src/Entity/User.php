@@ -4,6 +4,8 @@ namespace App\Entity;
 
 use ApiPlatform\Metadata\ApiResource;
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -28,6 +30,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      */
     #[ORM\Column]
     private ?string $password = null;
+
+    #[ORM\ManyToMany(targetEntity: Account::class, mappedBy: 'accountUser')]
+    private Collection $accounts;
+
+    public function __construct()
+    {
+        $this->accounts = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -97,5 +107,32 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    /**
+     * @return Collection<int, Account>
+     */
+    public function getAccounts(): Collection
+    {
+        return $this->accounts;
+    }
+
+    public function addAccount(Account $account): self
+    {
+        if (!$this->accounts->contains($account)) {
+            $this->accounts->add($account);
+            $account->addAccountUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeAccount(Account $account): self
+    {
+        if ($this->accounts->removeElement($account)) {
+            $account->removeAccountUser($this);
+        }
+
+        return $this;
     }
 }
